@@ -4,17 +4,16 @@ pipeline {
     tools{
         nodejs 'nodejs'
     }
-    parameters {
-        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
-    }
     stages {
-        if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
-            stage('Install dependencies') {
+        stage('Install dependencies') {
+            if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
                 steps {
                     sh 'npm install'
                 }
             }
-            stage('build') {
+        }
+        stage('build') {
+            if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
                 steps {
                     sh 'npm run build'
                 }
