@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'develop', credentialsId: 'gitea', url: 'http://10.200.140.225/talangTeam/umbrella-managemer.git'
+                git branch: 'develop', url: 'http://10.200.140.225/talangTeam/umbrella-managemer.git'
             }
         }
         stage('Install dependencies') {
@@ -12,7 +12,7 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('Build') {
+        stage('build') {
             steps {
                 sh 'npm run build'
             }
