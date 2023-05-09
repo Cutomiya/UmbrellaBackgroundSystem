@@ -3,6 +3,9 @@ pipeline {
     tools{
         nodejs 'nodejs'
     }
+    parameters {
+        gitParameter branchFilter: 'origin/(.*)', defaultValue: 'develop', name: 'BRANCH', type: 'PT_BRANCH'
+    }
     stages {
         stage('Install dependencies') {
             steps {
