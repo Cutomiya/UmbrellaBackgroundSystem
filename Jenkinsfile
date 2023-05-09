@@ -7,8 +7,11 @@ pipeline {
     stages {
         stage('Install dependencies') {    
             when { 
-                branch 'master' || branch 'develop'
+                branch 'master'
             }        
+            when { 
+                branch 'develop'
+            }    
             steps {
                  sh 'npm install'
                 
