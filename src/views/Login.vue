@@ -1,38 +1,164 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-// const box1 = ref<any>(null)
-let isMove = ref(false)
-let word = ref('SING UP')
-function sign () {
-  // console.log('54')
+import { reactive, ref } from 'vue'
+import type { FormInstance, FormRules } from 'element-plus'
+const ruleFormRef1 = ref<FormInstance>()
+const ruleFormRef2 = ref<FormInstance>()
+
+const checkNewName = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback(new Error('请输入用户名'))
+  }
+  setTimeout(() => {
+    if (value.toString().length < 3) {
+      callback(new Error('用户名不可少于三个字符'))
+    } else if (value.toString().length > 12){
+      callback(new Error('用户名不可多于十二个字符'))
+    } else {
+      console.log(value.length)
+      callback()
+    }
+  }, 1000)
 }
-function move () {
+const validateNewPass1 = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请重新输入密码'))
+  } else if (value.toString().length < 6) {
+    callback(new Error('密码不可少于6位'))
+  } else {
+    callback()
+  }
+}
+const validateNewPass2 = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请重新输入密码'))
+  } else if (value !== ruleFormNew.newPassword1) {
+    callback(new Error("两次输入的密码不一致!"))
+  } else {
+    callback()
+  }
+}
+const ruleFormNew = reactive({
+  newPassword1: '',
+  newPassword2: '',
+  newName: '',
+})
+const rulesNew = reactive<FormRules>({
+  newPassword1: [{ validator: validateNewPass1, trigger: 'blur' }],
+  newPassword2: [{ validator: validateNewPass2, trigger: 'blur' }],
+  newName: [{ validator: checkNewName, trigger: 'blur' }],
+})
+
+const submitForm1 = (formEl: FormInstance | undefined) => {
+  if (!formEl) return
+  formEl.validate((valid) => {
+    if (valid) {
+      console.log('submit!')
+    } else {
+      console.log('error submit!')
+      return false
+    }
+  })
+}
+const resetForm = (formEl1: FormInstance | undefined, formEl2: FormInstance | undefined) => {
+  // console.log(formEl1, formEl2);
   isMove.value = !isMove.value
   if (isMove.value) {
     word.value = 'SIGN IN'
   } else {
     word.value = 'SIGN UP'
   }
+  if (!formEl1) return
+  formEl1.resetFields()
+  if (!formEl2) return
+  formEl2.resetFields()
 }
+// 右边的表格
+const checkName = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    return callback(new Error('请输入用户名'))
+  }
+  setTimeout(() => {
+    if (value.toString().length < 3) {
+      callback(new Error('用户名不可少于三个字符'))
+    } else if (value.toString().length > 12){
+      callback(new Error('用户名不可多于十二个字符'))
+    } else {
+      console.log(value.length)
+      callback()
+    }
+  }, 1000)
+}
+const validatePass = (rule: any, value: any, callback: any) => {
+  if (value === '') {
+    callback(new Error('请重新输入密码'))
+  } else if (value.toString().length < 6) {
+    callback(new Error('密码不可少于6位'))
+  } else {
+    callback()
+  }
+}
+const ruleForm = reactive({
+  Password: '',
+  Name: '',
+})
+const rules = reactive<FormRules>({
+  Password: [{ validator: validatePass, trigger: 'blur' }],
+  Name: [{ validator: checkName, trigger: 'blur' }],
+})
+
+let isMove = ref(false)
+let word = ref('SING UP')
 </script>
 
 <template>
   <div class="contain">
     <div class="box">
-      <button class="over" @click="move" :class="{move2: isMove}">{{ word }}</button>
+      <button class="over" @click="resetForm(ruleFormRef1, ruleFormRef2)" :class="{move2: isMove}">{{ word }}</button>
       <div :class='{box1: true, move1: isMove, boxContain: true}'>
         <h2>Sign In</h2>
-        <input type="text" placeholder="用户名">
-        <input type="password" placeholder="密码">
-        <span style="font-size: 12px; color: #7c7c7c; cursor: pointer; margin-top:10px;">忘记密码？</span>
-        <button @click="sign">SIGN IN</button>
+        <!-- <input type="text" placeholder="用户名" v-model="form.name">
+        <input type="password" placeholder="密码" v-model="form.password"> -->
+        <el-form
+          ref="ruleFormRef1"
+          :model="ruleForm"
+          status-icon
+          :rules="rules"
+          label-width="120px"
+          class="demo-ruleForm">
+          <el-form-item label="用户名" prop="Name" size="large">
+            <el-input v-model.number="ruleForm.Name"/>
+          </el-form-item>
+          <el-form-item label="密码" prop="Password" size="large">
+            <el-input v-model="ruleForm.Password" type="password" autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <span style="font-size: 12px; color: #7c7c7c; cursor: pointer;">忘记密码？</span>
+        <button @click="submitForm1">SIGN IN</button>
       </div>
       <div :class='{box2: true, move1: isMove, boxContain: true}'>
         <h2>Sign Up</h2>
-        <input type="text" placeholder="用户名">
-        <input type="password" placeholder="新密码">
-        <input type="password" placeholder="确认密码">
-        <button @click="sign">SIGN UP</button>
+        <el-form
+          ref="ruleFormRef2"
+          :model="ruleFormNew"
+          status-icon
+          :rules="rulesNew"
+          label-width="120px"
+          class="demo-ruleForm">
+          <el-form-item label="用户名" prop="newName" size="large">
+            <el-input v-model="ruleFormNew.newName" />
+          </el-form-item>
+          <el-form-item label="新密码" prop="newPassword1" size="large">
+            <el-input v-model="ruleFormNew.newPassword1" type="password" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="确认密码" prop="newPassword2" size="large">
+            <el-input
+              v-model="ruleFormNew.newPassword2"
+              type="password"
+              autocomplete="off"
+            />
+          </el-form-item>
+        </el-form>
+        <button @click="signUp">SIGN UP</button>
       </div>
     </div>
   </div>
@@ -56,7 +182,7 @@ function move () {
     top: 50%;
     overflow: hidden;
     transform: translate(-50%, -50%);
-
+    background: linear-gradient(to top, rgba(230, 230, 230,0) 60%, rgba(255, 255, 255, 0.8) 100%);
     .box1 {
       right: 0px;
     }
@@ -66,14 +192,18 @@ function move () {
     .boxContain{
       width: 50%;
       height: 100%;
-      background-color: rgb(230, 230, 230);
+      box-sizing: border-box;
+      background-color: rgb(240, 240, 240);
       position: absolute;
-      transition: all 0.5s ease;
+      transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
       text-align: center;
       justify-content: center;
       align-items: center;
+    }
+    .demo-ruleForm{
+      padding-right:50px;
     }
     .move1{
       transform: translateX(100%);
@@ -103,12 +233,12 @@ function move () {
       // padding:10px 60px;
       text-align: center;
       border-radius: 20px;
-      background-image: linear-gradient(to right,rgb(21, 78, 151), rgb(99, 156, 241));
+      background-image: linear-gradient(to right,rgb(21, 78, 151), rgb(98, 161, 255));
       color: #fff;
       // background-color: aqua;
       margin:20px;
       cursor: pointer;
-      transition: all 0.5s ease;
+      transition: all 0.3s ease;
     }
     .over{
       float: left;
