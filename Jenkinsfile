@@ -1,5 +1,6 @@
 pipeline {
     // jenkins 编译nodejs项目   
+    agent any
     tools{
         nodejs 'nodejs'
     }
