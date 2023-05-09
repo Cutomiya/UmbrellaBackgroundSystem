@@ -1,14 +1,11 @@
-pipeline{
+pipeline {
     // 编译nodejs项目
-    agent {label 'develop'} 
-    stages{
+    agent {label 'develop'}
+    stages {
         stage('Build') {
-            steps {
+            steps { 
                 echo "Install dependencies"
                 sh "npm install"
-            }
-
-            steps {
                 sh "npm run build"
             }
         }
