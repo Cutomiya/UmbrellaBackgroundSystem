@@ -7,11 +7,10 @@ pipeline {
     stages {
         stage('Install dependencies') {    
             when { 
+                // 检测是否为master和develop分支
                 branch 'master'
-            }        
-            when { 
                 branch 'develop'
-            }    
+            }           
             steps {
                  sh 'npm install'
                 
