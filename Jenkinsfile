@@ -2,7 +2,7 @@ pipeline {
     // jenkins 编译nodejs项目
     agent any
     tools{
-        nodejs '20.1.0'
+        nodejs 'nodejs'
     }
     stages {
         stage('Install dependencies') {
