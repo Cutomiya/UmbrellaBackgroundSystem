@@ -5,17 +5,17 @@ pipeline {
         nodejs 'nodejs'
     }
     stages {
-        stage('Install dependencies') {
-            if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
-                steps {
+        stage('Install dependencies') {            
+            steps {
+                if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
                     sh 'npm install'
                 }
             }
         }
         stage('build') {
-            if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
-                steps {
-                    sh 'npm run build'
+            steps {
+                if(env.BRANCH_NAME == 'master' || env.BRANCH_NAME == 'develop') {
+                sh 'npm run build'
                 }
             }
         }
