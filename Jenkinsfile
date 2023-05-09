@@ -1,8 +1,5 @@
 pipeline {
     // jenkins 编译nodejs项目   
-    agent {
-        label 'develop' 
-    }
     tools{
         nodejs 'nodejs'
     }
