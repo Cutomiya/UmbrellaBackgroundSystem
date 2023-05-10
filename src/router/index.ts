@@ -3,8 +3,13 @@ import {createRouter,createWebHashHistory} from "vue-router"
 const routes = [
   {
     path: '/',
-    name: 'layout',
+    name: 'login',
     component: () => import('../views/Login.vue')
+  }, {
+    path: '/layout',
+    name: 'layout',
+    component: () => import('../views/Layout.vue'),
+    children: []
   }
 ]
 //创建路由实例并传递routes配置
