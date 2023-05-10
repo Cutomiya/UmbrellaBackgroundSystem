@@ -28,5 +28,16 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        stage('post') {
+            when { 
+                anyOf{
+                    branch 'master'
+                    branch 'develop'
+                }
+            }     
+            steps {
+                sh label: 'python3', script: 'python3 /home/ubuntu/scrip/feishu.py ${JENKINS_URL} ${JOB_NAME}-${BUILD_NUMBER}'
+            }
+        }
     }
 }
