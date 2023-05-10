@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import {useRouter} from 'vue-router'
 const ruleFormRef1 = ref<FormInstance>()
 const ruleFormRef2 = ref<FormInstance>()
 
-const checkNewName = (rule: any, value: any, callback: any) => {
+const router=useRouter()
+
+const checkNewName = (_rule: any, value: any, callback: any) => {
   if (!value) {
     return callback(new Error('请输入用户名'))
   }
@@ -14,12 +17,12 @@ const checkNewName = (rule: any, value: any, callback: any) => {
     } else if (value.toString().length > 12){
       callback(new Error('用户名不可多于十二个字符'))
     } else {
-      console.log(value.length)
+      // console.log(value.length)
       callback()
     }
   }, 1000)
 }
-const validateNewPass1 = (rule: any, value: any, callback: any) => {
+const validateNewPass1 = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请重新输入密码'))
   } else if (value.toString().length < 6) {
@@ -28,7 +31,7 @@ const validateNewPass1 = (rule: any, value: any, callback: any) => {
     callback()
   }
 }
-const validateNewPass2 = (rule: any, value: any, callback: any) => {
+const validateNewPass2 = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请重新输入密码'))
   } else if (value !== ruleFormNew.newPassword1) {
@@ -52,7 +55,8 @@ const submitForm1 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      console.log('submit!')
+      localStorage.setItem('userInfo', JSON.stringify(ruleForm))
+      router.push('layout')
     } else {
       console.log('error submit!')
       return false
@@ -73,7 +77,7 @@ const resetForm = (formEl1: FormInstance | undefined, formEl2: FormInstance | un
   formEl2.resetFields()
 }
 // 右边的表格
-const checkName = (rule: any, value: any, callback: any) => {
+const checkName = (_rule: any, value: any, callback: any) => {
   if (!value) {
     return callback(new Error('请输入用户名'))
   }
@@ -83,12 +87,12 @@ const checkName = (rule: any, value: any, callback: any) => {
     } else if (value.toString().length > 12){
       callback(new Error('用户名不可多于十二个字符'))
     } else {
-      console.log(value.length)
+      // console.log(value.length)
       callback()
     }
   }, 1000)
 }
-const validatePass = (rule: any, value: any, callback: any) => {
+const validatePass = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请重新输入密码'))
   } else if (value.toString().length < 6) {
@@ -133,7 +137,7 @@ let word = ref('SING UP')
           </el-form-item>
         </el-form>
         <span style="font-size: 12px; color: #7c7c7c; cursor: pointer;">忘记密码？</span>
-        <button @click="submitForm1">SIGN IN</button>
+        <button @click="submitForm1(ruleFormRef1)">SIGN IN</button>
       </div>
       <div :class='{box2: true, move1: isMove, boxContain: true}'>
         <h2>Sign Up</h2>
@@ -158,7 +162,7 @@ let word = ref('SING UP')
             />
           </el-form-item>
         </el-form>
-        <button @click="signUp">SIGN UP</button>
+        <button>SIGN UP</button>
       </div>
     </div>
   </div>
