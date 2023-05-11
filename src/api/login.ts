@@ -2,7 +2,7 @@ import axios from '@/utils/axios.ts'
 
 export function login (username: string, password: string) {
   return axios({
-    url: '',
+    url: '/user/login',
     method: 'POST',
     data: {
       username,
@@ -11,9 +11,9 @@ export function login (username: string, password: string) {
   })
 }
 
-export function getUserInfo (token: string) {
+export function getUserInfo (token) {
   return axios({
-    url: '',
+    url: `/user/info/${token}`,
     method: 'GET'
   })
 }

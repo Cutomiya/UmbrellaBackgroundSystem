@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import {useRouter} from 'vue-router'
+import { login, getUserInfo } from '@/api/login'
 const ruleFormRef1 = ref<FormInstance>()
 const ruleFormRef2 = ref<FormInstance>()
 
@@ -55,8 +56,34 @@ const submitForm1 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid) => {
     if (valid) {
-      localStorage.setItem('userInfo', JSON.stringify(ruleForm))
-      router.push('layout')
+      login(ruleForm.Name, ruleForm.Password).then(res => {
+        let resp = res.data
+        if (resp.flag) {
+              getUserInfo(resp.data.token).then(res => {
+                let resUser = res.data
+                if (resUser.flag) {
+                  localStorage.setItem(
+                    'manager-user',
+                    JSON.stringify(resUser.data)
+                  )
+                  localStorage.setItem('manager-token', resp.data.token)
+                  router.push('layout')
+                } else {
+                  // this.$message({
+                  //   message: resUser.message,
+                  //   type: 'warning'
+                  // })
+                  return false
+                }
+              })
+            } else {
+              // this.$message({
+              //   message: resp.message,
+              //   type: 'warning'
+              // })
+              return false
+            }
+      })
     } else {
       console.log('error submit!')
       return false
