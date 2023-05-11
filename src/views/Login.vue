@@ -1,12 +1,16 @@
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
-import {useRouter} from 'vue-router'
+import { useRouter } from 'vue-router'
 import { login, getUserInfo } from '@/api/login'
+import { ElMessage } from 'element-plus'
 const ruleFormRef1 = ref<FormInstance>()
 const ruleFormRef2 = ref<FormInstance>()
 
-const router=useRouter()
+const router = useRouter()
+
+let isMove = ref(false)
+let word = ref('SING UP')
 
 const checkNewName = (_rule: any, value: any, callback: any) => {
   if (!value) {
@@ -15,7 +19,7 @@ const checkNewName = (_rule: any, value: any, callback: any) => {
   setTimeout(() => {
     if (value.toString().length < 3) {
       callback(new Error('用户名不可少于三个字符'))
-    } else if (value.toString().length > 12){
+    } else if (value.toString().length > 12) {
       callback(new Error('用户名不可多于十二个字符'))
     } else {
       // console.log(value.length)
@@ -59,30 +63,25 @@ const submitForm1 = (formEl: FormInstance | undefined) => {
       login(ruleForm.Name, ruleForm.Password).then(res => {
         let resp = res.data
         if (resp.flag) {
-              getUserInfo(resp.data.token).then(res => {
-                let resUser = res.data
-                if (resUser.flag) {
-                  localStorage.setItem(
-                    'manager-user',
-                    JSON.stringify(resUser.data)
-                  )
-                  localStorage.setItem('manager-token', resp.data.token)
-                  router.push('layout')
-                } else {
-                  // this.$message({
-                  //   message: resUser.message,
-                  //   type: 'warning'
-                  // })
-                  return false
-                }
-              })
+          getUserInfo(resp.data.token).then(res => {
+            let resUser = res.data
+            if (resUser.flag) {
+              localStorage.setItem(
+                'manager-user',
+                JSON.stringify(resUser.data)
+              )
+              localStorage.setItem('manager-token', resp.data.token)
+              ElMessage.success('登录成功')
+              router.push('layout')
             } else {
-              // this.$message({
-              //   message: resp.message,
-              //   type: 'warning'
-              // })
+              ElMessage.warning(resUser.message)
               return false
             }
+          })
+        } else {
+          ElMessage.warning(resp.message)
+          return false
+        }
       })
     } else {
       console.log('error submit!')
@@ -111,7 +110,7 @@ const checkName = (_rule: any, value: any, callback: any) => {
   setTimeout(() => {
     if (value.toString().length < 3) {
       callback(new Error('用户名不可少于三个字符'))
-    } else if (value.toString().length > 12){
+    } else if (value.toString().length > 12) {
       callback(new Error('用户名不可多于十二个字符'))
     } else {
       // console.log(value.length)
@@ -136,28 +135,20 @@ const rules = reactive<FormRules>({
   Password: [{ validator: validatePass, trigger: 'blur' }],
   Name: [{ validator: checkName, trigger: 'blur' }],
 })
-
-let isMove = ref(false)
-let word = ref('SING UP')
 </script>
 
 <template>
   <div class="contain">
     <div class="box">
-      <button class="over" @click="resetForm(ruleFormRef1, ruleFormRef2)" :class="{move2: isMove}">{{ word }}</button>
-      <div :class='{box1: true, move1: isMove, boxContain: true}'>
+      <button class="over" @click="resetForm(ruleFormRef1, ruleFormRef2)" :class="{ move2: isMove }">{{ word }}</button>
+      <div :class='{ box1: true, move1: isMove, boxContain: true }'>
         <h2>Sign In</h2>
         <!-- <input type="text" placeholder="用户名" v-model="form.name">
         <input type="password" placeholder="密码" v-model="form.password"> -->
-        <el-form
-          ref="ruleFormRef1"
-          :model="ruleForm"
-          status-icon
-          :rules="rules"
-          label-width="120px"
+        <el-form ref="ruleFormRef1" :model="ruleForm" status-icon :rules="rules" label-width="120px"
           class="demo-ruleForm">
           <el-form-item label="用户名" prop="Name" size="large">
-            <el-input v-model.number="ruleForm.Name"/>
+            <el-input v-model.number="ruleForm.Name" />
           </el-form-item>
           <el-form-item label="密码" prop="Password" size="large">
             <el-input v-model="ruleForm.Password" type="password" autocomplete="off" />
@@ -166,14 +157,9 @@ let word = ref('SING UP')
         <span style="font-size: 12px; color: #7c7c7c; cursor: pointer;">忘记密码？</span>
         <button @click="submitForm1(ruleFormRef1)">SIGN IN</button>
       </div>
-      <div :class='{box2: true, move1: isMove, boxContain: true}'>
+      <div :class='{ box2: true, move1: isMove, boxContain: true }'>
         <h2>Sign Up</h2>
-        <el-form
-          ref="ruleFormRef2"
-          :model="ruleFormNew"
-          status-icon
-          :rules="rulesNew"
-          label-width="120px"
+        <el-form ref="ruleFormRef2" :model="ruleFormNew" status-icon :rules="rulesNew" label-width="120px"
           class="demo-ruleForm">
           <el-form-item label="用户名" prop="newName" size="large">
             <el-input v-model="ruleFormNew.newName" />
@@ -182,11 +168,7 @@ let word = ref('SING UP')
             <el-input v-model="ruleFormNew.newPassword1" type="password" autocomplete="off" />
           </el-form-item>
           <el-form-item label="确认密码" prop="newPassword2" size="large">
-            <el-input
-              v-model="ruleFormNew.newPassword2"
-              type="password"
-              autocomplete="off"
-            />
+            <el-input v-model="ruleFormNew.newPassword2" type="password" autocomplete="off" />
           </el-form-item>
         </el-form>
         <button>SIGN UP</button>
@@ -202,6 +184,7 @@ let word = ref('SING UP')
   background-image: url('../common/images/bj.jpg');
   background-size: cover;
   position: relative;
+
   .box {
     width: 760px;
     height: 450px;
@@ -213,14 +196,17 @@ let word = ref('SING UP')
     top: 50%;
     overflow: hidden;
     transform: translate(-50%, -50%);
-    background: linear-gradient(to top, rgba(230, 230, 230,0) 60%, rgba(255, 255, 255, 0.8) 100%);
+    background: linear-gradient(to top, rgba(230, 230, 230, 0) 60%, rgba(255, 255, 255, 0.8) 100%);
+
     .box1 {
       right: 0px;
     }
-    .box2{
-      left:-50%;
+
+    .box2 {
+      left: -50%;
     }
-    .boxContain{
+
+    .boxContain {
       width: 50%;
       height: 100%;
       box-sizing: border-box;
@@ -233,53 +219,61 @@ let word = ref('SING UP')
       justify-content: center;
       align-items: center;
     }
-    .demo-ruleForm{
-      padding-right:50px;
+
+    .demo-ruleForm {
+      padding-right: 50px;
     }
-    .move1{
+
+    .move1 {
       transform: translateX(100%);
     }
-    .right{
+
+    .right {
       transform: translateX(100%);
     }
-    input{
+
+    input {
       width: 300px;
       height: 40px;
       border: none;
       margin: 10px 40px;
       font-size: 16px;
-      padding:0px 10px;
+      padding: 0px 10px;
     }
-    h2{
-      margin:16px;
+
+    h2 {
+      margin: 16px;
       font-weight: 300;
       color: #474747;
       user-select: none;
       font-size: 24px;
     }
-    button{
+
+    button {
       border: none;
       width: 160px;
       height: 40px;
       // padding:10px 60px;
       text-align: center;
       border-radius: 20px;
-      background-image: linear-gradient(to right,rgb(21, 78, 151), rgb(98, 161, 255));
+      background-image: linear-gradient(to right, rgb(21, 78, 151), rgb(98, 161, 255));
       color: #fff;
       // background-color: aqua;
-      margin:20px;
+      margin: 20px;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    .over{
+
+    .over {
       float: left;
       position: absolute;
-      left:12%;
-      top:40%;
+      left: 12%;
+      top: 40%;
       // transform: translate(-50%, -50%);
       z-index: 99;
     }
-    .move2{
+
+    .move2 {
       transform: translateX(240%);
     }
   }
