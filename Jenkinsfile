@@ -28,16 +28,21 @@ pipeline {
                 sh 'npm run build'
             }
         }
+        stage('send message') {
+            when { 
+                anyOf{
+                    branch 'master'
+                    branch 'develop'
+                }
+            }     
+            steps {
+                sh label: 'python3', script: 'python3 /home/jenkins_home/script/feishu.py ${JENKINS_URL} ${JOB_NAME}-${BUILD_NUMBER} 成功'
+            }
+        }
     }
     post{
-        when { 
-            anyOf{
-                branch 'master'
-                branch 'develop'
-            }
-        }  
-        always{ 
-            sh label: 'python3', script: 'python3 /home/jenkins_home/script/feishu.py ${JENKINS_URL} ${JOB_NAME}-${BUILD_NUMBER}'
+        failure{ 
+            sh label: 'python3', script: 'python3 /home/jenkins_home/script/feishu.py ${JENKINS_URL} ${JOB_NAME}-${BUILD_NUMBER} 失败'
         }
     }
 }
