@@ -6,14 +6,30 @@ const routes = [
     name: 'login',
     component: () => import('@/views/Login.vue')
   } as RouteRecordRaw, {
-    path: '/layout',
+    path: '/',
     name: 'layout',
     component: () => import('@/views/Layout.vue'),
-    // children: []
-  } as RouteRecordRaw, {
-    path: '/',
-    redirect: '/layout'
-  }
+    children: [
+      {
+        path: '/home',
+        component: () => import('@/views/Home.vue'),
+        meta:{title:'首页'}
+      },{
+        path:'/user',
+        component: () => import('@/views/Management/User.vue'),
+        meta: {title:'用户管理'}
+      }, {
+        path: '/umbrella',
+        component: () => import('@/views/Management/Umbrella.vue'),
+        meta: {title:'设置'}
+      }, {
+        path: '/setting',
+        component: () => import('@/views/Setting.vue'),
+        meta: {title:'设置'}
+      }
+    ],
+    redirect:'home'
+  } as RouteRecordRaw
 ]
 //创建路由实例并传递routes配置
 const router = createRouter({

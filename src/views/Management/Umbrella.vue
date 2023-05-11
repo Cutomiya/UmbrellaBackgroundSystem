@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  home
+  umb
 </template>
 
 <style lang="less" scoped>

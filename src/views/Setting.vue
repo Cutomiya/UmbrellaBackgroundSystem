@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  home
+  seeting
 </template>
 
 <style lang="less" scoped>

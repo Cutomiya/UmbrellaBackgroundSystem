@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  home
+  use
 </template>
 
 <style lang="less" scoped>
