@@ -31,6 +31,12 @@ pipeline {
     }
     post{
         always{
+            when { 
+                anyOf{
+                    branch 'master'
+                    branch 'develop'
+                }
+            }   
             sh label: 'python3', script: 'python3 /home/jenkins_home/script/feishu.py ${JENKINS_URL} ${JOB_NAME}-${BUILD_NUMBER}'
         }
     }
