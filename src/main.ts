@@ -8,6 +8,7 @@ import myaxios from '@/utils/axios'
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
+import '@/utils/permission'
 
 const app = createApp(App)
 
