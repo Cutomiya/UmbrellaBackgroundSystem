@@ -118,7 +118,7 @@ const submitForm = () => {
           <el-radio label="建议" />
         </el-radio-group>
       </el-form-item>
-      <el-form-item label="Activity form" prop="desc">
+      <el-form-item label="填写内容：" prop="desc">
         <el-input v-model="feedback.data" type="textarea" />
       </el-form-item>
       <template #footer>
