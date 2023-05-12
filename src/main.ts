@@ -7,12 +7,17 @@ import router from './router/index'
 import myaxios from '@/utils/axios'
 
 import ElementPlus from 'element-plus'
+import VForm3 from 'vform3-builds'  //引入VForm3库
 import 'element-plus/dist/index.css'
+import 'vform3-builds/dist/designer.style.css'  //引入VForm3样式
+
 import '@/utils/permission'
+
+import { createPinia } from 'pinia'
 
 const app = createApp(App)
 
 // app.config.globalProperties.$myaxios = myaxios
 
 // app.use(router).use(ElementPlus).use(myaxios).mount('#app')
-app.use(router).use(ElementPlus).mount('#app')
+app.use(router).use(createPinia()).use(ElementPlus).use(VForm3).mount('#app')
