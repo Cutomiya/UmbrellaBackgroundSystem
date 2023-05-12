@@ -16,9 +16,9 @@ const handleClose = (key: string, keyPath: string[]) => {
 
 <template>
   <div class="navbar">
-    <el-menu active-text-color="#51a1fd" background-color="#3f454a" class="el-menu-vertical-demo" :default-active="$route.path" :router="true"
+    <el-menu active-text-color="white" class="el-menu-vertical-demo" :default-active="$route.path" :router="true"
       text-color="#fff" @open="handleOpen" @close="handleClose">
-      <el-menu-item index="/home">
+      <el-menu-item index="/home" :class="$route.path=='/home'?'active':''">
         <el-icon><HomeFilled /></el-icon>
         <span>首页</span>
       </el-menu-item>
@@ -28,15 +28,15 @@ const handleClose = (key: string, keyPath: string[]) => {
           <span>系统管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="/user">
+          <el-menu-item index="/user" :class="$route.path=='/user'?'active':''">
             <el-icon><UserFilled /></el-icon>
             用户管理</el-menu-item>
-          <el-menu-item index="/umbrella">
+          <el-menu-item index="/umbrella" :class="$route.path=='/umbrella'?'active':''">
             <el-icon><GoodsFilled /></el-icon>
             雨伞管理</el-menu-item>
         </el-menu-item-group>
       </el-sub-menu>
-      <el-menu-item index="/setting">
+      <el-menu-item index="/setting" :class="$route.path=='/setting'?'active':''">
         <el-icon><Tools /></el-icon>
         <span>设置</span>
       </el-menu-item>
@@ -48,7 +48,25 @@ const handleClose = (key: string, keyPath: string[]) => {
 .el-menu{
   border-right:none;
 }
-:deep( .el-menu-item-group__title){
+:deep(.el-menu-item-group__title){
   padding:0 !important;
+}
+:deep(.el-menu-item){
+  // background-color: rgba(16, 16, 17, 0.8) !important;
+}
+:deep(.el-sub-menu__title){
+  // background-color: rgba(16, 16, 17, 0.8) !important;
+}
+.active{
+  background-color: #3e83d3 !important;
+}
+:deep(.el-menu){
+  background-color: rgba(16, 16, 17, 0) !important;
+}
+:deep(.el-menu-item:hover){
+  background-color: rgba(16, 16, 17, 0);
+}
+:deep(.el-sub-menu__title:hover){
+  background-color: rgba(16, 16, 17, 0);
 }
 </style>
