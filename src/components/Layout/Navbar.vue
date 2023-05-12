@@ -51,12 +51,6 @@ const handleClose = (key: string, keyPath: string[]) => {
 :deep(.el-menu-item-group__title){
   padding:0 !important;
 }
-:deep(.el-menu-item){
-  // background-color: rgba(16, 16, 17, 0.8) !important;
-}
-:deep(.el-sub-menu__title){
-  // background-color: rgba(16, 16, 17, 0.8) !important;
-}
 .active{
   background-color: #3e83d3 !important;
 }

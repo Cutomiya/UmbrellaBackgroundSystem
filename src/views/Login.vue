@@ -10,51 +10,51 @@ const ruleFormRef2 = ref<FormInstance>()
 const router = useRouter()
 
 let isMove = ref(false)
-let word = ref('SING UP')
+let word = ref('关于我们')
 
-const checkNewName = (_rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error('请输入用户名'))
-  }
-  setTimeout(() => {
-    if (value.toString().length < 3) {
-      callback(new Error('用户名不可少于三个字符'))
-    } else if (value.toString().length > 12) {
-      callback(new Error('用户名不可多于十二个字符'))
-    } else {
-      // console.log(value.length)
-      callback()
-    }
-  }, 1000)
-}
-const validateNewPass1 = (_rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请重新输入密码'))
-  } else if (value.toString().length < 6) {
-    callback(new Error('密码不可少于6位'))
-  } else {
-    callback()
-  }
-}
-const validateNewPass2 = (_rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('请重新输入密码'))
-  } else if (value !== ruleFormNew.newPassword1) {
-    callback(new Error("两次输入的密码不一致!"))
-  } else {
-    callback()
-  }
-}
-const ruleFormNew = reactive({
-  newPassword1: '',
-  newPassword2: '',
-  newName: '',
-})
-const rulesNew = reactive<FormRules>({
-  newPassword1: [{ validator: validateNewPass1, trigger: 'blur' }],
-  newPassword2: [{ validator: validateNewPass2, trigger: 'blur' }],
-  newName: [{ validator: checkNewName, trigger: 'blur' }],
-})
+// const checkNewName = (_rule: any, value: any, callback: any) => {
+//   if (!value) {
+//     return callback(new Error('请输入用户名'))
+//   }
+//   setTimeout(() => {
+//     if (value.toString().length < 3) {
+//       callback(new Error('用户名不可少于三个字符'))
+//     } else if (value.toString().length > 12) {
+//       callback(new Error('用户名不可多于十二个字符'))
+//     } else {
+//       // console.log(value.length)
+//       callback()
+//     }
+//   }, 1000)
+// }
+// const validateNewPass1 = (_rule: any, value: any, callback: any) => {
+//   if (value === '') {
+//     callback(new Error('请重新输入密码'))
+//   } else if (value.toString().length < 6) {
+//     callback(new Error('密码不可少于6位'))
+//   } else {
+//     callback()
+//   }
+// }
+// const validateNewPass2 = (_rule: any, value: any, callback: any) => {
+//   if (value === '') {
+//     callback(new Error('请重新输入密码'))
+//   } else if (value !== ruleFormNew.newPassword1) {
+//     callback(new Error("两次输入的密码不一致!"))
+//   } else {
+//     callback()
+//   }
+// }
+// const ruleFormNew = reactive({
+//   newPassword1: '',
+//   newPassword2: '',
+//   newName: '',
+// })
+// const rulesNew = reactive<FormRules>({
+//   newPassword1: [{ validator: validateNewPass1, trigger: 'blur' }],
+//   newPassword2: [{ validator: validateNewPass2, trigger: 'blur' }],
+//   newName: [{ validator: checkNewName, trigger: 'blur' }],
+// })
 
 const submitForm1 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
@@ -93,9 +93,9 @@ const resetForm = (formEl1: FormInstance | undefined, formEl2: FormInstance | un
   // console.log(formEl1, formEl2);
   isMove.value = !isMove.value
   if (isMove.value) {
-    word.value = 'SIGN IN'
+    word.value = '登录'
   } else {
-    word.value = 'SIGN UP'
+    word.value = '关于我们'
   }
   if (!formEl1) return
   formEl1.resetFields()
@@ -142,7 +142,7 @@ const rules = reactive<FormRules>({
     <div class="box">
       <button class="over" @click="resetForm(ruleFormRef1, ruleFormRef2)" :class="{ move2: isMove }">{{ word }}</button>
       <div :class='{ box1: true, move1: isMove, boxContain: true }'>
-        <h2>Sign In</h2>
+        <h2>登录</h2>
         <!-- <input type="text" placeholder="用户名" v-model="form.name">
         <input type="password" placeholder="密码" v-model="form.password"> -->
         <el-form ref="ruleFormRef1" :model="ruleForm" status-icon :rules="rules" label-width="120px"
@@ -155,11 +155,14 @@ const rules = reactive<FormRules>({
           </el-form-item>
         </el-form>
         <span style="font-size: 12px; color: #7c7c7c; cursor: pointer;">忘记密码？</span>
-        <button @click="submitForm1(ruleFormRef1)">SIGN IN</button>
+        <button @click="submitForm1(ruleFormRef1)">登录</button>
       </div>
       <div :class='{ box2: true, move1: isMove, boxContain: true }'>
-        <h2>Sign Up</h2>
-        <el-form ref="ruleFormRef2" :model="ruleFormNew" status-icon :rules="rulesNew" label-width="120px"
+        <h2>关于我们</h2>
+        <div class="text">
+          Pinia 是 Vue 的存储库，它允许您跨组件/页面共享状态。如果您熟悉 Composition API，您可能会认为您已经可以通过一个简单的 export const state = reactive({}). 这对于单页应用程序来说是正确的，但如果它是服务器端呈现的，会使您的应用程序暴露于安全漏洞。 但即使在小型单页应用程序中，您也可以从使用 Pinia 中获得很多好处：
+        </div>
+        <!-- <el-form ref="ruleFormRef2" :model="ruleFormNew" status-icon :rules="rulesNew" label-width="120px"
           class="demo-ruleForm">
           <el-form-item label="用户名" prop="newName" size="large">
             <el-input v-model="ruleFormNew.newName" />
@@ -170,21 +173,26 @@ const rules = reactive<FormRules>({
           <el-form-item label="确认密码" prop="newPassword2" size="large">
             <el-input v-model="ruleFormNew.newPassword2" type="password" autocomplete="off" />
           </el-form-item>
-        </el-form>
-        <button>SIGN UP</button>
+        </el-form> -->
+        <!-- <button>SIGN UP</button> -->
       </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="less">
+.text{
+  color: #858585;
+  width: 300px;
+  user-select: none;
+}
 .contain {
   width: 100vw;
   height: 100vh;
   background-image: url('../common/images/bj.jpg');
   background-size: cover;
   position: relative;
-
+  user-select: none;
   .box {
     width: 760px;
     height: 450px;

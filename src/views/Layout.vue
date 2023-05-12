@@ -26,6 +26,8 @@ import Main from '../components/Layout/Main.vue'
   left: 0px;
   right: 0px;
   top: 0px;
+  height: 50px;
+  user-select: none;
 }
 
 .navbar {
