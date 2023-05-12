@@ -28,7 +28,31 @@ pipeline {
                 sh 'npm run build'
             }
         }
-        stage('send message') {
+        stage("package") {
+            when { 
+                anyOf{
+                    branch 'master'
+                    branch 'develop'
+                }
+            }     
+            steps {
+                sh 'tar -zcvf dist.tar.gz dist'
+            }
+        }
+        stage('update testing service'){
+            when { 
+                anyOf{
+                    branch 'develop'
+                }
+            }     
+            steps {
+                sh 'cp dist.tar.gz /home/www/'
+                sh 'cd /home/www/'
+                sh 'rm -rf /home/www/dist'
+                sh 'tar -zxvf /home/www/dist.tar.gz -C /home/www/'
+            }
+        }
+        stage('send success message') {
             when { 
                 anyOf{
                     branch 'master'
