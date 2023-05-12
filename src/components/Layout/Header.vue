@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, reactive, nextTick } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ref, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
 import { logoutUser } from "@/api/login"
 import { useRouter } from 'vue-router'

@@ -21,7 +21,7 @@ const routes = [
       }, {
         path: '/umbrella',
         component: () => import('@/views/Management/Umbrella.vue'),
-        meta: {title:'设置'}
+        meta: {title:'雨伞管理'}
       }, {
         path: '/setting',
         component: () => import('@/views/Setting.vue'),
