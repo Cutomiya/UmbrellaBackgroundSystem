@@ -47,6 +47,7 @@ pipeline {
             }     
             steps {
                 sh 'cp dist.tar.gz /home/www/'
+                sh 'cd /home/www/'
                 sh 'rm -rf /home/www/dist'
                 sh 'tar -zxvf /home/www/dist.tar.gz -C /home/www/'
             }
