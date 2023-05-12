@@ -1,5 +1,5 @@
 # 运行：npm run dev
-   vue + axios + echarts + element
+   vue3 + ts + axios + echarts + element + VForm 3 + pinia
 
 # Vue 3 + TypeScript + Vite
 

@@ -17,3 +17,13 @@ export function getUserInfo (token) {
     method: 'GET'
   })
 }
+
+export function logoutUser (token) {
+  return axios({
+    url: `/user/logout/${token}`,
+    method: 'POST',
+    data: {
+      token
+    }
+  })
+}

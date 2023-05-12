@@ -72,7 +72,7 @@ const submitForm1 = (formEl: FormInstance | undefined) => {
               )
               localStorage.setItem('manager-token', resp.data.token)
               ElMessage.success('登录成功')
-              router.push('layout')
+              router.push('/')
             } else {
               ElMessage.warning(resUser.message)
               return false
