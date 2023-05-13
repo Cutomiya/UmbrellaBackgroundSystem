@@ -88,7 +88,7 @@ const submitForm = () => {
       </span>
     </div>
     <div style="float: right;">
-      <span style="color: white;font-size: 10px;">系统有问题？</span>
+      <span style="color: white;font-size: 10px;">有问题？</span>
       <span class="text" @click="dialogVisible2 = true">点击这里反馈！</span>
       <i class="iconfont icon-xinxiang"></i>
       <el-dropdown @command="handleCommand">
@@ -116,6 +116,7 @@ const submitForm = () => {
         <el-radio-group v-model="feedback.type">
           <el-radio label="bug" />
           <el-radio label="建议" />
+          <el-radio label="疑问" />
         </el-radio-group>
       </el-form-item>
       <el-form-item label="填写内容：" prop="desc">

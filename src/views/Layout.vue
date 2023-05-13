@@ -47,6 +47,6 @@ import Main from '../components/Layout/Main.vue'
   right: 0px;
   bottom: 0px;
   top: 50px;
-  padding: 8px;
+  padding: 15px;
   overflow-y: auto;
 }</style>
