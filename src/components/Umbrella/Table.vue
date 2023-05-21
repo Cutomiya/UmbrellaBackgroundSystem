@@ -68,23 +68,47 @@ const handleCurrentChange = (val: number) => {
   align-items: center;
   :deep(.el-table){
     --el-table-bg-color: @col;
-    --el-table-bg-color: rgba(0, 0, 0, 0.5);
+    --el-table-bg-color: rgb(47, 53, 59);
     --el-table-tr-bg-color:rgba(0, 0, 0, 0);
-    --el-table-header-bg-color:rgba(0, 0, 0, 0.2);
+    --el-table-header-bg-color:rgba(47, 53, 59);
     --el-table-text-color:white;
-    --el-table-row-hover-bg-color:rgba(0, 0, 0, 0.2);
-    --el-table-row-hover-bg-color:rgba(0, 0, 0, 0.2);
-    --el-table-border-color:rgba(219, 219, 219, 0);
+    --el-table-row-hover-bg-color:rgb(35, 39, 44);
+    --el-table-border-color:rgba(32, 32, 32, 0.5);
     border-radius: 5px;
   }
   :deep(.el-table-fixed-column--right){
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgb(47, 53, 59);
   }
   :deep(.el-table-fixed-column--left){
-    background-color: rgba(0, 0, 0, 0);
+    background-color: rgb(47, 53, 59);
   }
   :deep(.el-table thead){
     color: white;
+  }
+  :deep(.el-pager li.is-active){
+    background-color:#3e83d3;
+  }
+  :deep(.el-pager li){
+    background-color:rgb(47, 53, 59);
+    color: white;
+  }
+  :deep(.el-pagination.is-background .btn-prev){
+    background-color:rgb(47, 53, 59);
+    color: white;
+  }
+  :deep(.el-pagination.is-background .btn-next){
+    background-color:rgb(47, 53, 59);
+    color: white;
+  }
+  :deep(.el-input__wrapper){
+    background-color:rgb(47, 53, 59);
+    box-shadow:0 0 0 1px rgb(34, 34, 34);
+    .el-input__inner{
+      color: white;
+    }
+  }
+  :deep(.el-pagination__jump){
+    color:white;
   }
 }
 </style>
