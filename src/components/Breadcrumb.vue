@@ -33,6 +33,6 @@ import { ArrowRight } from '@element-plus/icons-vue'
   color: rgba(81, 161, 253,0);
   font-weight:bolder;
   border-left: 3px solid #51a1fd;
-  left: 14px;
+  left: 22px;
 }
 </style>
