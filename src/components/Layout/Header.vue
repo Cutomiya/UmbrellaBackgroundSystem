@@ -2,12 +2,12 @@
 import { ref, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue'
-import { logoutUser } from "@/api/login"
+// import { logoutUser } from "@/api/login"
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-let user = JSON.parse(localStorage.getItem('manager-user'))
+// let user = JSON.parse(localStorage.getItem('manager-user'))
 //t右上角弹窗事件
 const handleCommand = (command: string | number | object) => {
   switch (command) {
@@ -45,16 +45,16 @@ const updatePwd = () => {
 //退出登录
 const logout = () => {
   let token = localStorage.getItem('manager-token')
-  logoutUser(token).then(res => {
-    let resp = res.data
-    if (resp.flag) {
-      localStorage.removeItem('manager-token')
-      localStorage.removeItem('manager-user')
-      router.push('/login')
-    } else {
-      ElMessage.warning(resp.message)
-    }
-  })
+  // logoutUser(token).then(res => {
+  //   let resp = res.data
+  //   if (resp.flag) {
+  //     localStorage.removeItem('manager-token')
+  //     localStorage.removeItem('manager-user')
+  //     router.push('/login')
+  //   } else {
+  //     ElMessage.warning(resp.message)
+  //   }
+  // })
 }
 //提交反馈
 const submitFeedback = () => {
@@ -93,7 +93,7 @@ const submitForm = () => {
       <i class="iconfont icon-xinxiang"></i>
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          欢迎您：{{ user.name }}<el-icon class="el-icon--right"><arrow-down /></el-icon>
+          <!-- 欢迎您：{{ user.name }}<el-icon class="el-icon--right"><arrow-down /></el-icon> -->
         </span>
         <template #dropdown>
           <el-dropdown-menu>

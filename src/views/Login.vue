@@ -2,7 +2,7 @@
 import { reactive, ref, onMounted } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { login, getUserInfo } from '@/api/login'
+// import { login, getUserInfo } from '@/api/login'
 import { ElMessage } from 'element-plus'
 const ruleFormRef1 = ref<FormInstance>()
 const ruleFormRef2 = ref<FormInstance>()
@@ -58,36 +58,36 @@ let word = ref('关于我们')
 
 const submitForm1 = (formEl: FormInstance | undefined) => {
   if (!formEl) return
-  formEl.validate((valid) => {
-    if (valid) {
-      login(ruleForm.Name, ruleForm.Password).then(res => {
-        let resp = res.data
-        if (resp.flag) {
-          getUserInfo(resp.data.token).then(res => {
-            let resUser = res.data
-            if (resUser.flag) {
-              localStorage.setItem(
-                'manager-user',
-                JSON.stringify(resUser.data)
-              )
-              localStorage.setItem('manager-token', resp.data.token)
-              ElMessage.success('登录成功')
-              router.push('/')
-            } else {
-              ElMessage.warning(resUser.message)
-              return false
-            }
-          })
-        } else {
-          ElMessage.warning(resp.message)
-          return false
-        }
-      })
-    } else {
-      console.log('error submit!')
-      return false
-    }
-  })
+  // formEl.validate((valid) => {
+  //   if (valid) {
+  //     login(ruleForm.Name, ruleForm.Password).then(res => {
+  //       let resp = res.data
+  //       if (resp.flag) {
+  //         getUserInfo(resp.data.token).then(res => {
+  //           let resUser = res.data
+  //           if (resUser.flag) {
+  //             localStorage.setItem(
+  //               'manager-user',
+  //               JSON.stringify(resUser.data)
+  //             )
+  //             localStorage.setItem('manager-token', resp.data.token)
+  //             ElMessage.success('登录成功')
+  //             router.push('/')
+  //           } else {
+  //             ElMessage.warning(resUser.message)
+  //             return false
+  //           }
+  //         })
+  //       } else {
+  //         ElMessage.warning(resp.message)
+  //         return false
+  //       }
+  //     })
+  //   } else {
+  //     console.log('error submit!')
+  //     return false
+  //   }
+  // })
 }
 const resetForm = (formEl1: FormInstance | undefined, formEl2: FormInstance | undefined) => {
   // console.log(formEl1, formEl2);
