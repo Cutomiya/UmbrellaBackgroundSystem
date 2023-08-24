@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <el-table :data="pageData" style="width: 100%">
-      <el-table-column fixed prop="id" label="用户id" />
+      <el-table-column fixed prop="id" label="用户id" width="180" />
       <el-table-column prop="username" label="用户名" width="160" />
       <el-table-column prop="password" label="用户密码" width="280" />
       <el-table-column prop="createTime" label="创建时间" width="220" />
