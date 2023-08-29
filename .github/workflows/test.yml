@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@main
+      uses: actions/checkout@master
 
     - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@main
+      uses: JamesIves/github-pages-deploy-action@master
       env:
         ACCESS_TOKEN: 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
         BRANCH: gh-pages
