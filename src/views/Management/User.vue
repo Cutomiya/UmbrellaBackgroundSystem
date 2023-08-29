@@ -5,7 +5,7 @@ import Table from '@/components/Umbrella/Table.vue'
 
 <template>
   <Breadcrumb></Breadcrumb>
-  <Table></Table>
+  <!-- <Table></Table> -->
 </template>
 
 <style lang="less" scoped>
