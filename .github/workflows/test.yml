@@ -1,47 +1,68 @@
-name: Build and Deploy
+name: ssh deploy 
+
 on:
   push:
-    branches:
-      - main
-permissions:
-  contents: write
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
 jobs:
-  build-and-deploy:
+  build:
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout 🛎️
-        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
-        with:
-          persist-credentials: false
+    - uses: actions/checkout@v3
+    - name: Use Node.js Build
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - run: npm install
+    - run: npm run dev
+    - run: ls -l
+    - name: scp ssh pipelines
+      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      env:
+        LASTSSH: "Doing something after copying"
+      with:
+        host: ${{ IP }}
+        user: ${{ NAME }}
+        pass: ${{ CODE }}
+        scp: |
+          ./dist/* => /usr/share/nginx/visual-editor/dist
+        last_ssh: |
+          echo $LASTSSH 
+          nginx -t
+          nginx -s reload
 
 
-      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
-        run: |
-          npm install
-          npm run build
-          cp dist/index.html dist/404.html
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v3
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
-# name: GitHub Actions Build and Deploy Demo
+
+# name: Build and Deploy
 # on:
 #   push:
 #     branches:
 #       - main
+# permissions:
+#   contents: write
 # jobs:
 #   build-and-deploy:
 #     runs-on: ubuntu-latest
 #     steps:
-#     - name: Checkout
-#       uses: actions/checkout@master
+#       - name: Checkout 🛎️
+#         uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
+#         with:
+#           persist-credentials: false
 
-#     - name: Build and Deploy
-#       uses: JamesIves/github-pages-deploy-action@master
-#       env:
-#         ACCESS_TOKEN: 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
-#         BRANCH: gh-pages
-#         FOLDER: build
-#         BUILD_SCRIPT: npm install && npm run build
+
+#       - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
+#         run: |
+#           npm install
+#           npm run build
+#           cp dist/index.html dist/404.html
+#       - name: Deploy 🚀
+#         uses: JamesIves/github-pages-deploy-action@releases/v3
+#         with:
+#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#           BRANCH: gh-pages # The branch the action should deploy to.
+#           FOLDER: dist # The folder the action should deploy.
