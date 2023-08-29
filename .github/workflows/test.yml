@@ -26,9 +26,9 @@ jobs:
       env:
         LASTSSH: "Doing something after copying"
       with:
-        host: ${{ IP }}
-        user: ${{ NAME }}
-        pass: ${{ CODE }}
+        host: ${{ secrets.IP }}
+        user: ${{ secrets.NAME }}
+        pass: ${{ secrets.CODE }}
         scp: |
           ./dist/* => /usr/share/nginx/visual-editor/dist
         last_ssh: |
