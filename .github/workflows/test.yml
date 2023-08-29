@@ -6,31 +6,26 @@ on:
 permissions:
   contents: write
 jobs:
-  # 一个job任务，任务名为build
-  build:
-    # runs-on 指定job任务运行所需要的虚拟机环境(必填字段)
+  build-and-deploy:
     runs-on: ubuntu-latest
-    # steps是每个Job的运行步骤，可以包含一个或多个步骤
     steps:
-      # action命令，切换分支获取源码
-      - name: Checkout
-        # 使用action库  actions/checkout获取源码
-        uses: actions/checkout@main
-      # action命令，安装Node10
-      - name: use Node.js 18
-        # 使用action库  actions/setup-node安装node
-        uses: actions/setup-node@v1
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2 # If you're using actions/checkout@v2 you must set persist-credentials to false in most cases for the deployment to work correctly.
         with:
-          node-version: 18
-      # action命令，install && test
-      - name: npm install and test
-        # 运行的命令或者 action
+          persist-credentials: false
+
+
+      - name: Install and Build 🔧 # This example project is built using npm and outputs the result to the 'build' folder. Replace with the commands required to build your project, or remove this step entirely if your site is pre-built.
         run: |
           npm install
-          npm run dev
-        # 环境变量
-        env:
-          CI: true
+          npm run build
+          cp dist/index.html dist/404.html
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@releases/v3
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: dist # The folder the action should deploy.
 # name: GitHub Actions Build and Deploy Demo
 # on:
 #   push:
