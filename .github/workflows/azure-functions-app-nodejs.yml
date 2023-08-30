@@ -40,30 +40,29 @@ on:
 
 jobs:
     build:
-
         runs-on: ubuntu-latest
 
         steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js Build
-        uses: actions/setup-node@v3
-        with:
-            node-version: 16.16.0
-            cache: 'npm'
-        - run: npm i 
-        - run: npm run build
-        - run: ls -l
-        - name: scp ssh pipelines
-        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
-        env:
-            LASTSSH: "Doing something after copying"
-        with:
-            host: ${{ secrets.IP }}
-            user: ${{ secrets.NAME }}
-            pass: ${{ secrets.CODE }}
-            scp: |
-            ./dist/* => /home/ubuntu/work/dist
-            last_ssh: |
-            echo $LASTSSH 
-            nginx -t
-            nginx -s reload
+            - uses: actions/checkout@v3
+            - name: Use Node.js Build
+            uses: actions/setup-node@v3
+            with:
+                node-version: 16.16.0
+                cache: 'npm'
+            - run: npm i 
+            - run: npm run build
+            - run: ls -l
+            - name: scp ssh pipelines
+            uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+            env:
+                LASTSSH: "Doing something after copying"
+            with:
+                host: ${{ secrets.IP }}
+                user: ${{ secrets.NAME }}
+                pass: ${{ secrets.CODE }}
+                scp: |
+                ./dist/* => /home/ubuntu/work/dist
+                last_ssh: |
+                echo $LASTSSH 
+                nginx -t
+                nginx -s reload
